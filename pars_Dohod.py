@@ -20,6 +20,7 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name(
 httpAuth = credentials.authorize(httplib2.Http())
 service = apiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
+
 def clear_area():
     """
     Clear cell in area
@@ -32,7 +33,6 @@ def clear_area():
 
 
 def get_html_code():
-
     headers = {'accept': '*/*',
                'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0'}
     url = "https://www.dohod.ru/ik/analytics/share"
@@ -48,20 +48,21 @@ def get_html_code():
     logger.info('The soup is ready')
 
 
-def read_ticker():
+def read_ticker(range_read_ticker: str):
     """
     read ticket from sheet
     """
     # Read name for Dohod, column -C-
     values = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='C3:C25',
+        range=range_read_ticker,
         majorDimension='COLUMNS'
     ).execute()
     print(values)
     with open(".\data_pkl\Ticker_C_collum.pkl", 'wb') as f:
         pickle.dump(values, f)
     logger.info("")
+
 
 def read_from_file(txt: str):
     lst = []
@@ -105,10 +106,10 @@ def send_dohod(index_cell: int, lst: list):
     ).execute()
     logger.info(f"{index_cell} row sended")
 
-def main():
-    read_ticker()
+
+def main(range_read_ticker: str):
+    read_ticker(range_read_ticker)
     get_html_code()
-    clear_area()
 
     with open(".\data_pkl\Ticker_C_collum.pkl", 'rb') as f:
         lst = pickle.load(f)
@@ -121,6 +122,7 @@ def main():
         else:
             cell += 1
         time.sleep(1)
+
 
 if __name__ == '__main__':
     main()

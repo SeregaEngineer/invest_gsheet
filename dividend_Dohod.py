@@ -36,14 +36,14 @@ def clear_area():
     ).execute()
 
 
-def read_ticker():
+def read_ticker(range_read_ticker: str):
     """
     Читаем колонку F и с этими данным топаем на Доход
     """
     # Read ticket for RBK, column -D-
     values = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='F3:F21',
+        range=range_read_ticker,
         majorDimension='COLUMNS'
     ).execute()
     lst = []
@@ -101,9 +101,8 @@ def send_dohod(index_cell: int, lst: list):
     logger.info(f"{index_cell} row sended")
 
 
-def main():
-    clear_area()
-    read_ticker()
+def main(range_read_ticker: str):
+    read_ticker(range_read_ticker)
     with open(".\data_pkl\Tiker_F_collum.pkl", 'rb') as f:
         lst = pickle.load(f)
     cell = 3

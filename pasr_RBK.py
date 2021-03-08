@@ -25,27 +25,27 @@ httpAuth = credentials.authorize(httplib2.Http())
 service = apiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
 
-def read_ticker():
+def read_ticker(range_read_ticker:str):
     """
     read ticket from sheet
     """
     # Read ticket for RBK, column -D-
     values = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='D3:D25',
+        range= range_read_ticker,
         majorDimension='COLUMNS'
     ).execute()
     with open(".\data_pkl\Ticker_D_collum_RBK.pkl", 'wb') as f:
         pickle.dump(values, f)
 
 
-def clear_area():
+def clear_area(range: str):
     """
     Clear cell in area
     """
     service.spreadsheets().values().clear(
         spreadsheetId=spreadsheet_id,
-        range='F3:AK26',
+        range= range,
     ).execute()
 
 
@@ -210,10 +210,9 @@ def send_rbk(index_cell: int, lst: list):
     ).execute()
 
 
-def main():
+def main(range_read_ticker: str):
 
-    clear_area()
-    read_ticker()
+    read_ticker(range_read_ticker)
 
     with open(".\data_pkl\Ticker_D_collum_RBK.pkl", 'rb') as f:
         val = pickle.load(f)
@@ -231,5 +230,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    pars_Dohod.main()
-    dividend_Dohod.main()
+
