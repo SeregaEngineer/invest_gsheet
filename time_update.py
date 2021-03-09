@@ -8,7 +8,6 @@ CREDENTIALS_FILE = 'creds.json'
 # ID Google Sheets документа (можно взять из его URL)
 spreadsheet_id = '1M74wp0CI6CgOpY7MB1grFAxRJPlKpIS2f3H6Kcu1fHI'
 
-
 # Авторизуемся и получаем service — экземпляр доступа к API
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
     CREDENTIALS_FILE,
@@ -18,9 +17,8 @@ httpAuth = credentials.authorize(httplib2.Http())
 service = apiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
 
-
-
-def send_time():
+def send_time(cell):
+    cell += 2
     today = datetime.datetime.today()
 
     update_data = today.strftime("%d.%m.%Y %H.%M")  # 2017-04-05-00.18.00
@@ -30,10 +28,11 @@ def send_time():
         body={
             "valueInputOption": "USER_ENTERED",
             "data": [
-                {"range": f"B27:B27",
+                {"range": f"A{cell}:B{cell}",
                  "majorDimension": "ROWS",
                  "values": [
                      [
+                         f'Обвнолено:',
                          f'{update_data}'  # Актуальная инфа
 
                      ],
