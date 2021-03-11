@@ -58,7 +58,6 @@ def read_ticker(range_read_ticker: str):
         range=range_read_ticker,
         majorDimension='COLUMNS'
     ).execute()
-    print(values)
     with open(".\data_pkl\Ticker_C_collum.pkl", 'wb') as f:
         pickle.dump(values, f)
     logger.info("")

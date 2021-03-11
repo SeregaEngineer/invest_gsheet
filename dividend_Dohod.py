@@ -55,6 +55,11 @@ def read_ticker(range_read_ticker: str):
 
 
 def get_data(tiker: str):
+
+    if tiker == '':
+        lst = ['', '', '', '']
+        return lst
+
     url = f'https://www.dohod.ru/ik/analytics/dividend/{tiker}'
     headers = {'accept': '*/*',
                'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101  Firefox/67.0'}
@@ -114,4 +119,4 @@ def main(range_read_ticker: str):
 
 
 if __name__ == '__main__':
-    main()
+    main('F3:F22')
