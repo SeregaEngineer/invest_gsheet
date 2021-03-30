@@ -18,8 +18,9 @@ service = apiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
 
 def send_time(cell):
-    cell += 2
+    cell += 3
     today = datetime.datetime.today()
+    print(today)
 
     update_data = today.strftime("%d.%m.%Y %H.%M")  # 2017-04-05-00.18.00
 
@@ -28,11 +29,10 @@ def send_time(cell):
         body={
             "valueInputOption": "USER_ENTERED",
             "data": [
-                {"range": f"A{cell}:B{cell}",
+                {"range": f"A{cell}", #:B{cell}",
                  "majorDimension": "ROWS",
                  "values": [
                      [
-                         f'Обвнолено:',
                          f'{update_data}'  # Актуальная инфа
 
                      ],
