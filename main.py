@@ -3,7 +3,7 @@ import dividend_Dohod
 import pasr_RBK
 import time_update
 
-ru_eu = 28
+ru_eu = 30
 ru = 22
 
 range_clear = f'F3:AS{ru_eu}'      # Все зона для очистки
